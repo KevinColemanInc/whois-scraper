@@ -1,0 +1,39 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (5.2.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    concurrent-ruby (1.1.4)
+    connection_pool (2.2.2)
+    i18n (1.5.3)
+      concurrent-ruby (~> 1.0)
+    minitest (5.11.3)
+    rack (2.0.6)
+    rack-protection (2.0.3)
+      rack
+    redis (4.0.1)
+    sidekiq (5.2.1)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
+    thread_safe (0.3.6)
+    tzinfo (1.2.5)
+      thread_safe (~> 0.1)
+    whois (4.0.7)
+    whois-parser (1.1.0)
+      activesupport (>= 4)
+      whois (>= 4.0.6)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  sidekiq
+  whois
+  whois-parser
+
+BUNDLED WITH
+   1.16.6
