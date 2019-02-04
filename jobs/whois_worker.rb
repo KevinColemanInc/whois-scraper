@@ -3,7 +3,13 @@ require 'whois'
 
 class WhoisWorker
   include Sidekiq::Worker
-  def perform(domain)
+  attr_accessor :domain
+
+  def initialize(domain)
+    @domain = domain
+  end
+
+  def process
     file_name = "out/#{domain}"
     return if File.file?(file_name)
     out_json = nil
@@ -18,6 +24,8 @@ class WhoisWorker
         expires_on: parser.expires_on,
         registered: parser.registered?,
         domain: domain,
+        status: :success,
+        reason: nil
       }.to_json
     rescue StandardError => ex
       sleep(5)
@@ -27,5 +35,6 @@ class WhoisWorker
     end
 
     File.open(file_name, 'w') { |file| file.write(out_json) }
+    return nil
   end
 end

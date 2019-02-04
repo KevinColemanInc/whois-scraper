@@ -1,3 +1,6 @@
+/out
+*.csv
+
 *.gem
 *.rbc
 /.config

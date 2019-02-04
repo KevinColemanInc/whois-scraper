@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'sidekiq'
+gem 'pmap'
 gem 'whois'
 gem 'whois-parser'
