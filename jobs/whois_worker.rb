@@ -2,7 +2,6 @@ require 'whois-parser'
 require 'whois'
 
 class WhoisWorker
-  include Sidekiq::Worker
   attr_accessor :domain
 
   def initialize(domain)
