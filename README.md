@@ -67,4 +67,4 @@ If you are like me and you are too lazy to print, sign and scan the document, yo
 
 ## The Verisign form requires an IP address of the server using the information. What do I put?
 
-You can use my [Digital Ocean referral](https://m.do.co/c/1ad1978bee9f) to setup a VPS with a static IP address for \$0.17 USD of 1 day of usage ($5/mo).
+You can use my [Digital Ocean referral with free $10 credit](https://m.do.co/c/1ad1978bee9f) to setup a VPS with a static IP address for free with the $10 credit, otherwise the machine will cost $0.17 for 1 day of use.
