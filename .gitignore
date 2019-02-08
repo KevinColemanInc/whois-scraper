@@ -1,5 +1,12 @@
+
+# Project ignores
 /out
 *.csv
+*.zone
+
+# unique list of domain names from zone file
+domains.txt
+
 
 *.gem
 *.rbc

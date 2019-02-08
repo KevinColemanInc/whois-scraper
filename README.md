@@ -6,6 +6,7 @@ Stores who-is data from Verisign zone file in CSV and JSON formats
 - [Quick start](#quick-start)
   - [Install the verisign file](#install-the-verisign-file)
   - [Run `app.rb`](#run-apprb)
+  - [cli flags](#cli-flags)
 - [FAQ](#faq)
   - [Where do I get the zone file?](#where-do-i-get-the-zone-file)
   - [The Verisign form requires an IP address of the server using the information. What do I put?](#the-verisign-form-requires-an-ip-address-of-the-server-using-the-information-what-do-i-put)
@@ -30,7 +31,9 @@ Install the file in the home directory with the file name
 
 ## Run `app.rb`
 
-This parses the verisign file and use a thread pool to fetch the whois information from each domain. The whois information is stored in `./out` with each domain getting its own file. After it has fetched all of the who is information, it copys the JSON data to a single CSV file.
+This parses the verisign file and writes a unique list of domain names to `domains.txt`. This can take a while, so if the process is interrupted, you can safely restart it without needing to remove `domains.txt`. The nameserver information is disregarded for now and will be recaptured with the whois data.
+
+Once `domains.txt` has been generated from the zone file, it uses a thread pool to start fetching the whois data for each domain. The whois information is stored in `./out` with each domain getting its own file. After it has fetched all of the who is information, it copys the JSON data to a single CSV file.
 
 The JSON file has the following keys:
 
@@ -47,11 +50,18 @@ The JSON file has the following keys:
 
 Having each domain as a file, acts like a hash map of domains for easy refetching if the process needs restarting. Once all of the data is collected in the "file system hash map", a CSV file is generated to `output.csv`
 
-`$ ruby app.rb`
+`$ ruby app.rb -domain com`
 
 The default file name is: `zone_file`, but you can run:
 
-`$ ruby app.rb -file zone_file`
+`$ ruby app.rb -tld=com -file=zone_file`
+
+## cli flags
+flag|meaning|
+---|---|
+`skip-unique-domains` | skips creating the domains.txt file
+`zone_file` | path to the zone file
+`tld` | default: 'com'
 
 # FAQ
 
