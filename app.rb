@@ -13,7 +13,7 @@ threads    = args['c'] || 5
 chunk_size = args['chunk_size'] || 5_000
 
 FileUtils.mkdir_p './out'
-UniqueDomains.execute(file_name) unless args['skip-unique-domains']
+UniqueDomains.execute(file_name) unless args.key?('skip-unique-domains')
 
 puts "Running whois to json."
 
