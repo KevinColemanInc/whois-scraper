@@ -1,6 +1,6 @@
 # whois-scraper
 
-Stores who-is data from Verisign zone file in CSV and JSON formats
+Stores whois data from Verisign zone file in CSV and JSON formats
 
 - [whois-scraper](#whois-scraper)
 - [Quick start](#quick-start)
