@@ -4,26 +4,25 @@ require './unique_domains'
 require './to_csv'
 require './whois_to_json'
 
-CHUNKSIZE = 5_000
-THREADS = 5
-
-FileUtils.mkdir_p './out'
+# Set arguments
 args = Hash[ ARGV.flat_map{|s| s.scan(/--?([^=\s]+)(?:=(\S+))?/) } ]
 
-file_name = args['file_name'] || './com.zone'
-tld = args['tld'] || 'com'
+file_name  = args['zone_file'] || './com.zone'
+tld        = args['tld'] || 'com'
+threads    = args['c'] || 5
+chunk_size = args['chunk_size'] || 5_000
+
+FileUtils.mkdir_p './out'
 UniqueDomains.execute(file_name) unless args['skip-unique-domains']
 
 puts "Running whois to json."
 
-chunked_domains = []
-File.open(UniqueDomains::DOMAINS_FILE_NAME, 'r').each do |line|
-  chunked_domains << line
-  next if chunked_domains.length < CHUNKSIZE
-  chunked_domains.peach(THREADS) do |domain|
-    WhoisToJson.execute(domain, tld)
+File.open(UniqueDomains::DOMAINS_FILE_NAME, 'r') do |file|
+  file.lazy.each_slice(chunk_size) do |chunks|
+    chunks.peach(threads) do |domain|
+      WhoisToJson.execute(domain, tld)
+    end
   end
-  chunked_domains = []
 end
 
 puts "Finished fetching whois"

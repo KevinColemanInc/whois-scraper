@@ -10,6 +10,7 @@ Stores who-is data from Verisign zone file in CSV and JSON formats
 - [FAQ](#faq)
   - [Where do I get the zone file?](#where-do-i-get-the-zone-file)
   - [The Verisign form requires an IP address of the server using the information. What do I put?](#the-verisign-form-requires-an-ip-address-of-the-server-using-the-information-what-do-i-put)
+  - [What happens when the whois informaiton fails to fetch?](#what-happens-when-the-whois-informaiton-fails-to-fetch)
 
 This uses a thread pool to quickly fetch the whois information. This writes the results of each domain to individual files in `./out` and then creates a csv file with all of the data.
 
@@ -62,6 +63,8 @@ flag|meaning|
 `skip-unique-domains` | skips creating the domains.txt file
 `zone_file` | path to the zone file
 `tld` | default: 'com'
+`threads` | default: 5; number of threads for whois query
+`chunk_size` | default: 5_000; number of lines to read at one time. you shouldn't need to touch this.
 
 # FAQ
 
@@ -78,3 +81,7 @@ If you are like me and you are too lazy to print, sign and scan the document, yo
 ## The Verisign form requires an IP address of the server using the information. What do I put?
 
 You can use my [Digital Ocean referral with free $10 credit](https://m.do.co/c/1ad1978bee9f) to setup a VPS with a static IP address for free with the $10 credit, otherwise the machine will cost $0.17 for 1 day of use.
+
+## What happens when the whois informaiton fails to fetch?
+
+In `./out`, all of the failed domain json files are pre-fixed with "FAILURE#{domain}". The exception for the failure is stored in the file in the `reason` attribute
