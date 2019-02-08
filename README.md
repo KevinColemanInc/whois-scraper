@@ -4,6 +4,8 @@ Stores who-is data from Verisign zone file in CSV and JSON formats
 
 - [whois-scraper](#whois-scraper)
 - [Quick start](#quick-start)
+  - [Clone](#clone)
+  - [Bundle install](#bundle-install)
   - [Install the verisign file](#install-the-verisign-file)
   - [Run `app.rb`](#run-apprb)
   - [cli flags](#cli-flags)
@@ -18,21 +20,21 @@ If there is a failure when fetching the whois information, the status will be `f
 
 # Quick start
 
-1. Clone
+## Clone
 
    `$ git clone git@github.com:KevinColemanInc/whois-scraper.git`
 
-2. Bundle install
+## Bundle install
 
    `$ cd whois-scraper && bundle install`
 
 ## Install the verisign file
 
-Install the file in the home directory with the file name
+Install the file in the home directory with the file name of `com.zone`.
 
 ## Run `app.rb`
 
-This parses the verisign file and writes a unique list of domain names to `domains.txt`. This can take a while, so if the process is interrupted, you can safely restart it without needing to remove `domains.txt`. The nameserver information is disregarded for now and will be recaptured with the whois data.
+This parses the verisign file and writes a unique list of domain names to `domains.txt`. Creating a unique list can take a while, so if the process is interrupted, you can safely restart it without needing to remove `domains.txt`. The nameserver information is disregarded for now and will be recaptured with the whois data.
 
 Once `domains.txt` has been generated from the zone file, it uses a thread pool to start fetching the whois data for each domain. The whois information is stored in `./out` with each domain getting its own file. After it has fetched all of the who is information, it copys the JSON data to a single CSV file.
 
@@ -55,14 +57,14 @@ Having each domain as a file, acts like a hash map of domains for easy refetchin
 
 The default file name is: `zone_file`, but you can run:
 
-`$ ruby app.rb -tld=com -file=zone_file`
+`$ ruby app.rb -tld=com -zone_file=com.zone -skip-unique-domains`
 
 ## cli flags
 flag|meaning|
 ---|---|
-`skip-unique-domains` | skips creating the domains.txt file
 `zone_file` | path to the zone file
 `tld` | default: 'com'
+`skip-unique-domains` | skips creating the domains.txt file. If you have already created it, there is no need to re-create it.
 `threads` | default: 5; number of threads for whois query
 `chunk_size` | default: 5_000; number of lines to read at one time. you shouldn't need to touch this.
 
