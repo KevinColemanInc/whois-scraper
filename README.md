@@ -13,6 +13,7 @@ Stores whois data from Verisign zone file in CSV and JSON formats
   - [Where do I get the zone file?](#where-do-i-get-the-zone-file)
   - [The Verisign form requires an IP address of the server using the information. What do I put?](#the-verisign-form-requires-an-ip-address-of-the-server-using-the-information-what-do-i-put)
   - [What happens when the whois information fails to fetch?](#what-happens-when-the-whois-information-fails-to-fetch)
+  - [This takes forever. How can I run this in the background?](#this-takes-forever-how-can-i-run-this-in-the-background)
 
 This uses a thread pool to quickly fetch the whois information. This writes the results of each domain to individual files in `./out` and then creates a csv file with all of the data.
 
@@ -87,3 +88,11 @@ You can use my [Digital Ocean referral with free $10 credit](https://m.do.co/c/1
 ## What happens when the whois information fails to fetch?
 
 In `./out`, all of the failed domain json files are pre-fixed with "FAILURE#{domain}". The exception for the failure is stored in the file in the `reason` attribute
+
+## This takes forever. How can I run this in the background?
+
+`$ nohup ruby app.rb &> results.txt &`
+
+This will push it a daemon and write the results to `results.txt`. You can watch the logs "live" by running:
+
+`$ tail -f results.txt`
