@@ -91,7 +91,7 @@ In `./out`, all of the failed domain json files are pre-fixed with "FAILURE#{dom
 
 ## This takes forever. How can I run this in the background?
 
-`$ nohup ruby app.rb &> results.txt &`
+`$ nohup ruby app.rb -tld=com -zone_file=com.zone -skip-unique-domains &> results.txt &`
 
 This will push it a daemon and write the results to `results.txt`. You can watch the logs "live" by running:
 
