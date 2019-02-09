@@ -9,7 +9,7 @@ args = Hash[ ARGV.flat_map{|s| s.scan(/--?([^=\s]+)(?:=(\S+))?/) } ]
 
 file_name  = args['zone_file'] || './com.zone'
 tld        = args['tld'] || 'com'
-threads    = args['c'] || 5
+threads    = args['c']&.to_i || 5
 chunk_size = args['chunk_size'] || 5_000
 
 FileUtils.mkdir_p './out'

@@ -66,7 +66,7 @@ flag|meaning|
 `zone_file` | path to the zone file
 `tld` | default: 'com'
 `skip-unique-domains` | skips creating the domains.txt file. If you have already created it, there is no need to re-create it.
-`threads` | default: 5; number of threads for whois query
+`c` | default: 5; number of threads for whois query
 `chunk_size` | default: 5_000; number of lines to read at one time. you shouldn't need to touch this.
 
 # FAQ
