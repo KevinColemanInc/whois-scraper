@@ -2,19 +2,6 @@ require 'whois-parser'
 require 'whois'
 
 class WhoisToCSV
-  def self.lock(path)
-    # We need to check the file exists before we lock it.
-    if File.exist?(path)
-      File.open(path).flock(File::LOCK_EX)
-    end
-  
-    # Carry out the operations.
-    yield
-  
-    # Unlock the file.
-    File.open(path).flock(File::LOCK_UN)
-  end
-
   def self.write(out_json)
     File.open("whois_results.csv", 'a') { |f| 
       f.flock(File::LOCK_EX)
@@ -26,7 +13,7 @@ class WhoisToCSV
     out_json = nil
     retry_counter = 0
     begin
-      record = Whois.whois("KITCHENTABLESET.com")#{domain}.#{tld}")
+      record = Whois.whois("#{domain}.#{tld}")
       parser = record.parser
       out_json = {
         created_on: parser.created_on,
