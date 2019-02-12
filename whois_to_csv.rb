@@ -13,18 +13,20 @@ class WhoisToCSV
     out_json = nil
     retry_counter = 0
     begin
-      record = Whois.whois("#{domain}.#{tld}")
+      record = Whois.whois("#{domain.strip}.#{tld}")
       parser = record.parser
       out_json = {
+        domain: domain,
+        status: :success,
+        reason: nil,
         created_on: parser.created_on,
         nameserver: parser.nameservers&.first&.name,
         registrar: parser.registrar&.url,
         expires_on: parser.expires_on,
-        registered: parser.registered?,
-        domain: domain,
-        status: :success,
-        reason: nil
+        registered: parser.registered?
       }
+    rescue Whois::AttributeNotImplemented => ex
+      out_json = { domain: domain, status: :failure, reason: ex.message }
     rescue StandardError => ex
       puts ex
       puts ex.message
