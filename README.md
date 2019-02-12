@@ -54,7 +54,7 @@ The JSON file has the following keys:
 
 Having each domain as a file, acts like a hash map of domains for easy refetching if the process needs restarting. Once all of the data is collected in the "file system hash map", a CSV file is generated to `output.csv`
 
-`$ ruby app.rb -domain com`
+`$ ruby app.rb -tld=com`
 
 The default file name is: `zone_file`, but you can run:
 

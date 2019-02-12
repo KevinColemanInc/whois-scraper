@@ -1,10 +1,28 @@
 require 'whois-parser'
 require 'whois'
 
-class WhoisToJson
+class WhoisToCSV
+  def self.lock(path)
+    # We need to check the file exists before we lock it.
+    if File.exist?(path)
+      File.open(path).flock(File::LOCK_EX)
+    end
+  
+    # Carry out the operations.
+    yield
+  
+    # Unlock the file.
+    File.open(path).flock(File::LOCK_UN)
+  end
+
+  def self.write(out_json)
+    File.open("whois_results.csv", 'a') { |f| 
+      f.flock(File::LOCK_EX)
+      f.puts(out_json.values.join('|'))
+    }
+  end
+
   def self.execute(domain, tld)
-    file_name = "out/#{domain}"
-    return if File.file?(file_name)
     out_json = nil
     retry_counter = 0
     begin
@@ -29,9 +47,7 @@ class WhoisToJson
       out_json = { domain: domain, status: :failure, reason: ex.message }
     end
 
-    file_name = "FAILURE#{file_name}" if out_json[:status] == :failure
-
-    File.open(file_name, 'w') { |file| file.write(out_json.to_json) }
+    write(out_json)
     raise "FAILURE #{domain}" if out_json[:status] == :failure
     return nil
   end
