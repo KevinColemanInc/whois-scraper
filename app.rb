@@ -13,6 +13,7 @@ threads    = args['c']&.to_i || 35
 chunk_size = args['chunk_size'] || 5_000
 
 FileUtils.mkdir_p './out'
+FileUtils.mkdir_p './failure'
 UniqueDomains.execute(file_name) unless args.key?('skip-unique-domains')
 
 puts "Running whois to csv."

@@ -35,6 +35,10 @@ class WhoisToCSV
       puts 'HARD FAILURE ' + domain
       retry_counter += 1
       out_json = { domain: domain, status: :failure, reason: ex.message }
+
+    File.open("./failure/#{domain}.json", 'a') { |f| 
+      f.puts(out_json.to_json)
+    }
     end
 
     write(out_json)
