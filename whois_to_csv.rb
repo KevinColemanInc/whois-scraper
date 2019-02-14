@@ -31,6 +31,7 @@ class WhoisToCSV
       puts ex.message
       sleep(5)
       retry if retry_counter < 2 # retry twice
+      puts 'HARD FAILURE ' + domain
       retry_counter += 1
       out_json = { domain: domain, status: :failure, reason: ex.message }
     end
