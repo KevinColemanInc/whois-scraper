@@ -3,8 +3,7 @@ require 'whois'
 
 class WhoisToCSV
   def self.write(out_json)
-    File.open("whois_results.csv", 'a') { |f| 
-      f.flock(File::LOCK_EX)
+    File.open("./out/whois_results_#{Thread.current.object_id}.csv", 'a') { |f| 
       f.puts(out_json.values.join('|'))
     }
   end
