@@ -30,6 +30,7 @@ class WhoisToCSV
     rescue StandardError => ex
       puts ex
       puts ex.message
+      puts domain
       sleep(5)
       retry if retry_counter < 2 # retry twice
       puts 'HARD FAILURE ' + domain
