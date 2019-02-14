@@ -24,6 +24,7 @@ class WhoisToCSV
         expires_on: parser.expires_on,
         registered: parser.registered?
       }
+      puts "success - #{domain}"
     rescue Whois::AttributeNotImplemented => ex
       out_json = { domain: domain, status: :failure, reason: ex.message }
     rescue StandardError => ex
