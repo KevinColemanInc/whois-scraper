@@ -24,7 +24,7 @@ class WhoisToCSV
         expires_on: parser.expires_on,
         registered: parser.registered?
       }
-      puts "success - #{domain}"
+      puts "success - #{domain.strip}"
     rescue Whois::AttributeNotImplemented => ex
       out_json = { domain: domain, status: :failure, reason: ex.message }
     rescue StandardError => ex
@@ -33,7 +33,7 @@ class WhoisToCSV
       retry if retry_counter < 3 # retry twice
       out_json = { domain: domain, status: :failure, reason: ex.message }
 
-      File.open("./failure/#{domain}.json", 'w') { |f| 
+      File.open("./failure/#{domain.strip}.json", 'w') { |f| 
         f.puts(out_json.to_json)
       }
     end

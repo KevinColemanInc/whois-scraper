@@ -21,7 +21,6 @@ puts "Running whois to csv."
 if retry_failures
   puts 'retrying failures'
   Dir["./failure/*"].peach(threads) do |domain|
-    puts domain
     File.delete(domain)
     WhoisToCSV.execute(domain.split('/').last, tld)
   end
