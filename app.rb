@@ -11,17 +11,27 @@ file_name  = args['zone_file'] || './com.zone'
 tld        = args['tld'] || 'com'
 threads    = args['c']&.to_i || 35
 chunk_size = args['chunk_size'] || 5_000
+retry_failures = args['retry']
 
 FileUtils.mkdir_p './out'
 FileUtils.mkdir_p './failure'
-UniqueDomains.execute(file_name) unless args.key?('skip-unique-domains')
 
 puts "Running whois to csv."
 
-File.open(UniqueDomains::DOMAINS_FILE_NAME, 'r') do |file|
-  file.lazy.each_slice(chunk_size) do |chunks|
-    chunks.peach(threads) do |domain|
-      WhoisToCSV.execute(domain, tld)
+if retry_failures
+  puts 'retrying failures'
+  Dir["./failure/*"].peach(threads) do |domain|
+    puts domain
+    File.delete(domain)
+    WhoisToCSV.execute(domain.split('/').last, tld)
+  end
+else
+  UniqueDomains.execute(file_name) unless args.key?('skip-unique-domains')
+  File.open(UniqueDomains::DOMAINS_FILE_NAME, 'r') do |file|
+    file.lazy.each_slice(chunk_size) do |chunks|
+      chunks.peach(threads) do |domain|
+        WhoisToCSV.execute(domain, tld)
+      end
     end
   end
 end

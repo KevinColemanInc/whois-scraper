@@ -68,6 +68,7 @@ flag|meaning|
 `skip-unique-domains` | skips creating the domains.txt file. If you have already created it, there is no need to re-create it.
 `c` | default: 5; number of threads for whois query
 `chunk_size` | default: 5_000; number of lines to read at one time. you shouldn't need to touch this.
+`retry` | default: false; retry failures in ./failure
 
 # FAQ
 
@@ -91,7 +92,7 @@ In `./out`, all of the failed domain json files are pre-fixed with "FAILURE#{dom
 
 ## This takes forever. How can I run this in the background?
 
-`$ nohup ruby app.rb -tld=com -zone_file=com.zone -skip-unique-domains -c=50 &> results.txt &`
+`$ nohup ruby app.rb -tld=com -zone_file=com.zone -skip-unique-domains -c=15 &> results.txt &`
 
 This will push it a daemon and write the results to `results.txt`. You can watch the logs "live" by running:
 

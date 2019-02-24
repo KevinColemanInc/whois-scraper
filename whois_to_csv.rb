@@ -28,12 +28,9 @@ class WhoisToCSV
     rescue Whois::AttributeNotImplemented => ex
       out_json = { domain: domain, status: :failure, reason: ex.message }
     rescue StandardError => ex
-      puts ex.message
-      puts domain
       sleep(8)
       retry_counter += 1
       retry if retry_counter < 3 # retry twice
-      puts 'HARD FAILURE ' + domain
       out_json = { domain: domain, status: :failure, reason: ex.message }
 
       File.open("./failure/#{domain}.json", 'w') { |f| 
