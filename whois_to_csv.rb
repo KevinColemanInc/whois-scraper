@@ -9,6 +9,7 @@ class WhoisToCSV
   end
 
   def self.execute(domain, tld)
+    domain.strip!
     out_json = nil
     retry_counter = 0
     begin
